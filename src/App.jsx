@@ -33,22 +33,44 @@ import {
 import './index.css';
 
 // ============================================
-// CUSTOM CURSOR COMPONENT
+// CUSTOM CURSOR COMPONENT (Optimized)
 // ============================================
 const CustomCursor = () => {
   const cursorRef = useRef(null);
   const cursorDotRef = useRef(null);
+  const mousePos = useRef({ x: 0, y: 0 });
+  const cursorPos = useRef({ x: 0, y: 0 });
+  const dotPos = useRef({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
 
   useEffect(() => {
     const cursor = cursorRef.current;
     const cursorDot = cursorDotRef.current;
+    let animationId;
+
+    // Smooth animation loop
+    const animate = () => {
+      // Cursor ring follows with slight delay (smooth effect)
+      cursorPos.current.x += (mousePos.current.x - cursorPos.current.x) * 0.15;
+      cursorPos.current.y += (mousePos.current.y - cursorPos.current.y) * 0.15;
+
+      // Dot follows instantly
+      dotPos.current.x += (mousePos.current.x - dotPos.current.x) * 0.5;
+      dotPos.current.y += (mousePos.current.y - dotPos.current.y) * 0.5;
+
+      cursor.style.left = `${cursorPos.current.x - 20}px`;
+      cursor.style.top = `${cursorPos.current.y - 20}px`;
+
+      cursorDot.style.left = `${dotPos.current.x - 4}px`;
+      cursorDot.style.top = `${dotPos.current.y - 4}px`;
+
+      animationId = requestAnimationFrame(animate);
+    };
 
     const moveCursor = (e) => {
-      const { clientX, clientY } = e;
-      cursor.style.transform = `translate(${clientX - 20}px, ${clientY - 20}px)`;
-      cursorDot.style.transform = `translate(${clientX - 4}px, ${clientY - 4}px)`;
+      mousePos.current.x = e.clientX;
+      mousePos.current.y = e.clientY;
     };
 
     const handleMouseOver = (e) => {
@@ -62,12 +84,16 @@ const CustomCursor = () => {
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
 
-    window.addEventListener('mousemove', moveCursor);
-    window.addEventListener('mouseover', handleMouseOver);
+    // Start animation loop
+    animationId = requestAnimationFrame(animate);
+
+    window.addEventListener('mousemove', moveCursor, { passive: true });
+    window.addEventListener('mouseover', handleMouseOver, { passive: true });
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mouseup', handleMouseUp);
 
     return () => {
+      cancelAnimationFrame(animationId);
       window.removeEventListener('mousemove', moveCursor);
       window.removeEventListener('mouseover', handleMouseOver);
       window.removeEventListener('mousedown', handleMouseDown);
