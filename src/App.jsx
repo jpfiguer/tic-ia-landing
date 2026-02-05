@@ -316,6 +316,9 @@ function App() {
           debtAmount: debtAmount || '150000',
           daysOverdue: diasMora || '30',
           product: producto || 'Demo TIC-IA',
+          // IMPORTANTE: Usar perfil 'demo' para llamadas de TIC-IA
+          // Esto evita que la agente mencione "RECOVER" o "CMR Falabella"
+          agentProfile: 'demo',
         }),
       });
 
@@ -459,7 +462,7 @@ function App() {
                   <Headphones size={24} color="white" />
                 </div>
                 <div className="hero-visual-info">
-                  <h4>Silvia - Agente IA</h4>
+                  <h4>Ana - Agente IA</h4>
                   <span>En llamada activa</span>
                 </div>
               </div>
@@ -472,7 +475,7 @@ function App() {
 
               <div className="hero-visual-transcript">
                 <p><strong>Cliente:</strong> Necesito informacion sobre mi cuenta...</p>
-                <p><strong>Silvia:</strong> Por supuesto, permitame verificar su informacion para asistirle de inmediato.</p>
+                <p><strong>Ana:</strong> Por supuesto, permitame verificar su informacion para asistirle de inmediato.</p>
               </div>
             </div>
           </div>
@@ -643,7 +646,12 @@ function App() {
                         <CheckCircle size={24} />
                         <div>
                           <strong>Llamada Iniciada</strong>
-                          <p>Silvia te llamara en unos segundos al numero {phoneNumber}</p>
+                          <p>Ana te llamara en unos segundos al numero {phoneNumber}</p>
+                          {callResult.data?.agentInfo && (
+                            <span className="demo-agent-info">
+                              Agente: {callResult.data.agentInfo.name} • {callResult.data.agentInfo.company}
+                            </span>
+                          )}
                         </div>
                       </>
                     ) : (
