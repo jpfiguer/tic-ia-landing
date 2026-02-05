@@ -260,7 +260,7 @@ const GlowingCard = ({ children, className }) => {
 };
 
 // API Base URL - tu servidor VoiceIA
-const API_BASE = 'https://pmc-got-happens-delivers.trycloudflare.com';
+const API_BASE = 'https://creative-ground-argument-specified.trycloudflare.com';
 
 // Demo profiles para probar diferentes escenarios
 const DEMO_PROFILES = [
