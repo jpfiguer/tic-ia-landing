@@ -259,8 +259,8 @@ const GlowingCard = ({ children, className }) => {
   );
 };
 
-// API Base URL - tu servidor VoiceIA
-const API_BASE = 'https://creative-ground-argument-specified.trycloudflare.com';
+// API Base URL - tu servidor VoiceIA (túnel permanente Cloudflare)
+const API_BASE = 'https://api.tic-ia.com';
 
 // Demo profiles para probar diferentes escenarios
 const DEMO_PROFILES = [
@@ -492,7 +492,7 @@ function App() {
             </span>
             <h2 className="section-title">Experimenta VoiceIA Ahora</h2>
             <p className="section-description">
-              Ingresa tu numero de telefono y recibe una llamada de Silvia, nuestra agente de voz IA.
+              Ingresa tu numero de telefono y recibe una llamada de Ana, nuestra agente de voz IA.
               Comprueba tu mismo la calidad y naturalidad de la conversacion.
             </p>
           </div>
@@ -702,7 +702,7 @@ function App() {
                   <CheckCircle2 size={20} />
                   <div>
                     <strong>Manejo de Objeciones</strong>
-                    <p>Silvia sabe como responder a cualquier situacion</p>
+                    <p>Ana sabe como responder a cualquier situacion</p>
                   </div>
                 </li>
               </ul>
