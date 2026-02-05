@@ -1101,11 +1101,11 @@ function App() {
               pueden automatizar tu operacion y multiplicar tus resultados.
             </p>
             <div className="cta-buttons">
-              <a href="mailto:contacto@tic-ia.com" className="btn btn-primary btn-lg">
+              <a href="mailto:jpfigueroa@tic-ia.com" className="btn btn-primary btn-lg">
                 Contactar Ahora
                 <ArrowRight size={20} />
               </a>
-              <a href="https://wa.me/56912345678" target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-lg">
+              <a href="https://wa.me/56930920303" target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-lg">
                 WhatsApp
               </a>
             </div>
@@ -1155,8 +1155,8 @@ function App() {
             <div className="footer-column">
               <h4>Contacto</h4>
               <ul>
-                <li><a href="mailto:contacto@tic-ia.com">contacto@tic-ia.com</a></li>
-                <li><a href="tel:+56912345678">+56 9 1234 5678</a></li>
+                <li><a href="mailto:jpfigueroa@tic-ia.com">jpfigueroa@tic-ia.com</a></li>
+                <li><a href="tel:+56930920303">+56 9 3092 0303</a></li>
                 <li><a href="#">Santiago, Chile</a></li>
               </ul>
             </div>
