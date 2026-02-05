@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Phone,
   Mail,
@@ -27,9 +27,237 @@ import {
   CreditCard,
   CheckCircle,
   XCircle,
-  Sparkles
+  Sparkles,
+  MousePointer2
 } from 'lucide-react';
 import './index.css';
+
+// ============================================
+// CUSTOM CURSOR COMPONENT
+// ============================================
+const CustomCursor = () => {
+  const cursorRef = useRef(null);
+  const cursorDotRef = useRef(null);
+  const [isHovering, setIsHovering] = useState(false);
+  const [isClicking, setIsClicking] = useState(false);
+
+  useEffect(() => {
+    const cursor = cursorRef.current;
+    const cursorDot = cursorDotRef.current;
+
+    const moveCursor = (e) => {
+      const { clientX, clientY } = e;
+      cursor.style.transform = `translate(${clientX - 20}px, ${clientY - 20}px)`;
+      cursorDot.style.transform = `translate(${clientX - 4}px, ${clientY - 4}px)`;
+    };
+
+    const handleMouseOver = (e) => {
+      if (e.target.closest('a, button, .service-card, .feature-card, .ai-chip, input')) {
+        setIsHovering(true);
+      } else {
+        setIsHovering(false);
+      }
+    };
+
+    const handleMouseDown = () => setIsClicking(true);
+    const handleMouseUp = () => setIsClicking(false);
+
+    window.addEventListener('mousemove', moveCursor);
+    window.addEventListener('mouseover', handleMouseOver);
+    window.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      window.removeEventListener('mousemove', moveCursor);
+      window.removeEventListener('mouseover', handleMouseOver);
+      window.removeEventListener('mousedown', handleMouseDown);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, []);
+
+  return (
+    <>
+      <div ref={cursorRef} className={`custom-cursor ${isHovering ? 'hovering' : ''} ${isClicking ? 'clicking' : ''}`} />
+      <div ref={cursorDotRef} className="custom-cursor-dot" />
+    </>
+  );
+};
+
+// ============================================
+// ANIMATED COUNTER COMPONENT
+// ============================================
+const AnimatedCounter = ({ end, duration = 2000, suffix = '', prefix = '' }) => {
+  const [count, setCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const counterRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isVisible) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (counterRef.current) {
+      observer.observe(counterRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [isVisible]);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    let startTime;
+    const animate = (currentTime) => {
+      if (!startTime) startTime = currentTime;
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      setCount(Math.floor(easeOutQuart * end));
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+    requestAnimationFrame(animate);
+  }, [isVisible, end, duration]);
+
+  return (
+    <span ref={counterRef}>
+      {prefix}{count}{suffix}
+    </span>
+  );
+};
+
+// ============================================
+// TYPING EFFECT COMPONENT
+// ============================================
+const TypingText = ({ texts, speed = 100, deleteSpeed = 50, pauseTime = 2000 }) => {
+  const [displayText, setDisplayText] = useState('');
+  const [textIndex, setTextIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const currentText = texts[textIndex];
+
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        if (displayText.length < currentText.length) {
+          setDisplayText(currentText.slice(0, displayText.length + 1));
+        } else {
+          setTimeout(() => setIsDeleting(true), pauseTime);
+        }
+      } else {
+        if (displayText.length > 0) {
+          setDisplayText(displayText.slice(0, -1));
+        } else {
+          setIsDeleting(false);
+          setTextIndex((prev) => (prev + 1) % texts.length);
+        }
+      }
+    }, isDeleting ? deleteSpeed : speed);
+
+    return () => clearTimeout(timeout);
+  }, [displayText, isDeleting, textIndex, texts, speed, deleteSpeed, pauseTime]);
+
+  return (
+    <span className="typing-text">
+      {displayText}
+      <span className="typing-cursor">|</span>
+    </span>
+  );
+};
+
+// ============================================
+// MAGNETIC BUTTON COMPONENT
+// ============================================
+const MagneticButton = ({ children, className, href, onClick }) => {
+  const buttonRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    const button = buttonRef.current;
+    const rect = button.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+
+    button.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+  };
+
+  const handleMouseLeave = () => {
+    buttonRef.current.style.transform = 'translate(0, 0)';
+  };
+
+  const Component = href ? 'a' : 'button';
+
+  return (
+    <Component
+      ref={buttonRef}
+      className={`magnetic-btn ${className}`}
+      href={href}
+      onClick={onClick}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {children}
+    </Component>
+  );
+};
+
+// ============================================
+// PARALLAX SECTION COMPONENT
+// ============================================
+const ParallaxSection = ({ children, className, speed = 0.5 }) => {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const scrolled = window.scrollY;
+      const yPos = -(scrolled * speed);
+      sectionRef.current.style.backgroundPositionY = `${yPos}px`;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [speed]);
+
+  return (
+    <section ref={sectionRef} className={className}>
+      {children}
+    </section>
+  );
+};
+
+// ============================================
+// GLOWING CARD COMPONENT
+// ============================================
+const GlowingCard = ({ children, className }) => {
+  const cardRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    const card = cardRef.current;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+  };
+
+  return (
+    <div
+      ref={cardRef}
+      className={`glowing-card ${className}`}
+      onMouseMove={handleMouseMove}
+    >
+      {children}
+    </div>
+  );
+};
 
 // API Base URL - tu servidor VoiceIA
 const API_BASE = 'https://pmc-got-happens-delivers.trycloudflare.com';
@@ -109,11 +337,14 @@ function App() {
 
   return (
     <>
+      {/* Custom Cursor */}
+      <CustomCursor />
+
       {/* Navbar */}
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="navbar-container">
           <a href="#" className="navbar-logo">
-            <div className="navbar-logo-icon">TI</div>
+            <img src="/favicon.svg" alt="TIC-IA" className="navbar-logo-icon-img" />
             <div className="navbar-logo-text">TIC-<span>IA</span></div>
           </a>
 
@@ -133,9 +364,23 @@ function App() {
           <button
             className="mobile-menu-btn"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Menu"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
+        </div>
+
+        {/* Mobile Menu */}
+        <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
+          <ul className="mobile-menu-links">
+            <li><a href="#demo" onClick={() => setMobileMenuOpen(false)}>Probar Demo</a></li>
+            <li><a href="#servicios" onClick={() => setMobileMenuOpen(false)}>Servicios</a></li>
+            <li><a href="#tecnologia" onClick={() => setMobileMenuOpen(false)}>Tecnología</a></li>
+            <li><a href="#contacto" onClick={() => setMobileMenuOpen(false)}>Contacto</a></li>
+          </ul>
+          <a href="#demo" className="btn btn-primary mobile-menu-cta" onClick={() => setMobileMenuOpen(false)}>
+            Probar Gratis
+          </a>
         </div>
       </nav>
 
@@ -145,6 +390,12 @@ function App() {
           <div className="hero-gradient-1"></div>
           <div className="hero-gradient-2"></div>
           <div className="hero-grid"></div>
+          {/* Floating orbs */}
+          <div className="hero-orbs">
+            <div className="hero-orb hero-orb-1"></div>
+            <div className="hero-orb hero-orb-2"></div>
+            <div className="hero-orb hero-orb-3"></div>
+          </div>
         </div>
 
         <div className="hero-content">
@@ -155,7 +406,18 @@ function App() {
             </div>
 
             <h1 className="hero-title">
-              Automatiza tu negocio con <span className="hero-title-gradient">Inteligencia Artificial</span>
+              Automatiza tu
+              <br />
+              <span className="hero-title-gradient">
+                <TypingText
+                  texts={['negocio', 'cobranza', 'ventas', 'atención al cliente', 'comunicación']}
+                  speed={80}
+                  deleteSpeed={40}
+                  pauseTime={1500}
+                />
+              </span>
+              <br />
+              <span className="hero-title-static">con</span> <span className="hero-title-gradient-static">IA</span>
             </h1>
 
             <p className="hero-description">
@@ -165,13 +427,13 @@ function App() {
             </p>
 
             <div className="hero-buttons">
-              <a href="#demo" className="btn btn-primary btn-lg">
+              <MagneticButton href="#demo" className="btn btn-primary btn-lg btn-glow">
                 Probar Demo Ahora
                 <ArrowRight size={20} />
-              </a>
-              <a href="#servicios" className="btn btn-secondary btn-lg">
+              </MagneticButton>
+              <MagneticButton href="#servicios" className="btn btn-secondary btn-lg">
                 Ver Servicios
-              </a>
+              </MagneticButton>
             </div>
 
             <div className="hero-stats">
@@ -397,15 +659,9 @@ function App() {
                 )}
               </div>
 
-              {/* Tech Stack */}
-              <div className="demo-tech">
-                <span>Tecnologia:</span>
-                <div className="demo-tech-items">
-                  <span>Twilio</span>
-                  <span>Groq AI</span>
-                  <span>ElevenLabs</span>
-                  <span>Deepgram</span>
-                </div>
+              {/* Espacio reservado para info de llamada */}
+              <div className="demo-call-info-placeholder">
+                {/* Este espacio se llenará con la información de la llamada */}
               </div>
             </div>
 
@@ -453,6 +709,63 @@ function App() {
                   Contactar
                 </a>
               </div>
+
+              {/* AI Animation Visual */}
+              <div className="ai-animation-container">
+                <div className="ai-brain">
+                  {/* Central core */}
+                  <div className="ai-core">
+                    <div className="ai-core-inner"></div>
+                  </div>
+
+                  {/* Orbital rings */}
+                  <div className="ai-orbit ai-orbit-1">
+                    <div className="ai-particle"></div>
+                  </div>
+                  <div className="ai-orbit ai-orbit-2">
+                    <div className="ai-particle"></div>
+                  </div>
+                  <div className="ai-orbit ai-orbit-3">
+                    <div className="ai-particle"></div>
+                  </div>
+
+                  {/* Neural nodes */}
+                  <div className="ai-nodes">
+                    <div className="ai-node ai-node-1"></div>
+                    <div className="ai-node ai-node-2"></div>
+                    <div className="ai-node ai-node-3"></div>
+                    <div className="ai-node ai-node-4"></div>
+                    <div className="ai-node ai-node-5"></div>
+                    <div className="ai-node ai-node-6"></div>
+                  </div>
+
+                  {/* Connection lines (SVG) */}
+                  <svg className="ai-connections" viewBox="0 0 200 200">
+                    <line className="ai-line ai-line-1" x1="100" y1="100" x2="40" y2="60" />
+                    <line className="ai-line ai-line-2" x1="100" y1="100" x2="160" y2="60" />
+                    <line className="ai-line ai-line-3" x1="100" y1="100" x2="30" y2="130" />
+                    <line className="ai-line ai-line-4" x1="100" y1="100" x2="170" y2="130" />
+                    <line className="ai-line ai-line-5" x1="100" y1="100" x2="60" y2="170" />
+                    <line className="ai-line ai-line-6" x1="100" y1="100" x2="140" y2="170" />
+                  </svg>
+
+                  {/* Pulse waves */}
+                  <div className="ai-pulse ai-pulse-1"></div>
+                  <div className="ai-pulse ai-pulse-2"></div>
+                  <div className="ai-pulse ai-pulse-3"></div>
+                </div>
+
+                {/* Floating particles */}
+                <div className="ai-floating-particles">
+                  <span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span>
+                </div>
+
+                <div className="ai-label">
+                  <Bot size={16} />
+                  <span>IA Procesando</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -462,6 +775,36 @@ function App() {
       <section id="servicios" className="services">
         <div className="container">
           <div className="section-header">
+            {/* Animación de chips IA flotantes */}
+            <div className="services-ai-animation">
+              <div className="ai-chip ai-chip-1">
+                <Cpu size={14} />
+                <span>Machine Learning</span>
+              </div>
+              <div className="ai-chip ai-chip-2">
+                <Bot size={14} />
+                <span>NLP</span>
+              </div>
+              <div className="ai-chip ai-chip-3">
+                <Zap size={14} />
+                <span>Automatización</span>
+              </div>
+              <div className="ai-chip ai-chip-4">
+                <BarChart3 size={14} />
+                <span>Analytics</span>
+              </div>
+              <div className="ai-chip ai-chip-5">
+                <MessageSquare size={14} />
+                <span>Chatbots</span>
+              </div>
+
+              {/* Líneas de conexión animadas */}
+              <svg className="ai-chip-connections" viewBox="0 0 400 100">
+                <path className="ai-chip-line" d="M50,50 Q100,20 150,50 T250,50 T350,50" />
+                <path className="ai-chip-line ai-chip-line-2" d="M50,60 Q100,90 150,60 T250,60 T350,60" />
+              </svg>
+            </div>
+
             <span className="section-badge">Nuestros Servicios</span>
             <h2 className="section-title">Soluciones IA de Alto Impacto</h2>
             <p className="section-description">
@@ -472,7 +815,7 @@ function App() {
 
           <div className="services-grid">
             {/* VoiceIA */}
-            <div className="service-card">
+            <GlowingCard className="service-card">
               <div className="service-icon">
                 <Phone size={32} />
               </div>
@@ -488,10 +831,10 @@ function App() {
                 <li><CheckCircle2 size={16} /> Analisis de sentimiento en tiempo real</li>
                 <li><CheckCircle2 size={16} /> Transcripcion y reporteria automatica</li>
               </ul>
-            </div>
+            </GlowingCard>
 
             {/* Email Marketing IA */}
-            <div className="service-card">
+            <GlowingCard className="service-card">
               <div className="service-icon">
                 <Mail size={32} />
               </div>
@@ -506,10 +849,10 @@ function App() {
                 <li><CheckCircle2 size={16} /> A/B testing automatizado</li>
                 <li><CheckCircle2 size={16} /> Segmentacion inteligente</li>
               </ul>
-            </div>
+            </GlowingCard>
 
             {/* Desarrollo IA */}
-            <div className="service-card">
+            <GlowingCard className="service-card">
               <div className="service-icon">
                 <Cpu size={32} />
               </div>
@@ -524,13 +867,89 @@ function App() {
                 <li><CheckCircle2 size={16} /> APIs e integraciones</li>
                 <li><CheckCircle2 size={16} /> Machine Learning aplicado</li>
               </ul>
-            </div>
+            </GlowingCard>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
       <section id="tecnologia" className="features">
+        {/* Full Width Circuit Animation */}
+        <div className="features-circuit-bg">
+          {/* Horizontal lines with traveling pulses */}
+          <div className="circuit-line-horizontal circuit-line-1">
+            <div className="circuit-pulse"></div>
+          </div>
+          <div className="circuit-line-horizontal circuit-line-2">
+            <div className="circuit-pulse"></div>
+          </div>
+          <div className="circuit-line-horizontal circuit-line-3">
+            <div className="circuit-pulse"></div>
+          </div>
+          <div className="circuit-line-horizontal circuit-line-4">
+            <div className="circuit-pulse"></div>
+          </div>
+
+          {/* Corner circuit patterns */}
+          <div className="circuit-corner circuit-corner-tl">
+            <svg viewBox="0 0 120 120">
+              <path className="circuit-corner-path" d="M0,60 L40,60 L40,30 L70,30" />
+              <path className="circuit-corner-path circuit-corner-path-2" d="M60,0 L60,40 L90,40" />
+              <path className="circuit-corner-path circuit-corner-path-3" d="M0,90 L30,90 L30,70 L50,70" />
+              <circle className="circuit-corner-node" cx="40" cy="60" r="4" />
+              <circle className="circuit-corner-node" cx="70" cy="30" r="3" />
+              <circle className="circuit-corner-node" cx="60" cy="40" r="3" />
+              <circle className="circuit-corner-node" cx="50" cy="70" r="3" />
+            </svg>
+          </div>
+
+          <div className="circuit-corner circuit-corner-tr">
+            <svg viewBox="0 0 120 120">
+              <path className="circuit-corner-path" d="M120,60 L80,60 L80,30 L50,30" />
+              <path className="circuit-corner-path circuit-corner-path-2" d="M60,0 L60,40 L30,40" />
+              <path className="circuit-corner-path circuit-corner-path-3" d="M120,90 L90,90 L90,70 L70,70" />
+              <circle className="circuit-corner-node" cx="80" cy="60" r="4" />
+              <circle className="circuit-corner-node" cx="50" cy="30" r="3" />
+              <circle className="circuit-corner-node" cx="60" cy="40" r="3" />
+              <circle className="circuit-corner-node" cx="70" cy="70" r="3" />
+            </svg>
+          </div>
+
+          <div className="circuit-corner circuit-corner-bl">
+            <svg viewBox="0 0 120 120">
+              <path className="circuit-corner-path" d="M0,60 L40,60 L40,90 L70,90" />
+              <path className="circuit-corner-path circuit-corner-path-2" d="M60,120 L60,80 L90,80" />
+              <path className="circuit-corner-path circuit-corner-path-3" d="M0,30 L30,30 L30,50 L50,50" />
+              <circle className="circuit-corner-node" cx="40" cy="60" r="4" />
+              <circle className="circuit-corner-node" cx="70" cy="90" r="3" />
+              <circle className="circuit-corner-node" cx="60" cy="80" r="3" />
+              <circle className="circuit-corner-node" cx="50" cy="50" r="3" />
+            </svg>
+          </div>
+
+          <div className="circuit-corner circuit-corner-br">
+            <svg viewBox="0 0 120 120">
+              <path className="circuit-corner-path" d="M120,60 L80,60 L80,90 L50,90" />
+              <path className="circuit-corner-path circuit-corner-path-2" d="M60,120 L60,80 L30,80" />
+              <path className="circuit-corner-path circuit-corner-path-3" d="M120,30 L90,30 L90,50 L70,50" />
+              <circle className="circuit-corner-node" cx="80" cy="60" r="4" />
+              <circle className="circuit-corner-node" cx="50" cy="90" r="3" />
+              <circle className="circuit-corner-node" cx="60" cy="80" r="3" />
+              <circle className="circuit-corner-node" cx="70" cy="50" r="3" />
+            </svg>
+          </div>
+
+          {/* Floating data nodes scattered across */}
+          <div className="floating-node floating-node-1"></div>
+          <div className="floating-node floating-node-2"></div>
+          <div className="floating-node floating-node-3"></div>
+          <div className="floating-node floating-node-4"></div>
+          <div className="floating-node floating-node-5"></div>
+          <div className="floating-node floating-node-6"></div>
+          <div className="floating-node floating-node-7"></div>
+          <div className="floating-node floating-node-8"></div>
+        </div>
+
         <div className="container">
           <div className="section-header">
             <span className="section-badge">Tecnologia</span>
@@ -630,20 +1049,32 @@ function App() {
         <div className="container">
           <div className="stats-grid">
             <div className="stat-item">
-              <div className="stat-value">50K+</div>
+              <div className="stat-value">
+                <AnimatedCounter end={50} duration={2500} suffix="K+" />
+              </div>
               <div className="stat-label">Llamadas Procesadas</div>
+              <div className="stat-bar"><div className="stat-bar-fill" style={{width: '85%'}}></div></div>
             </div>
             <div className="stat-item">
-              <div className="stat-value">98%</div>
+              <div className="stat-value">
+                <AnimatedCounter end={98} duration={2000} suffix="%" />
+              </div>
               <div className="stat-label">Entregabilidad Email</div>
+              <div className="stat-bar"><div className="stat-bar-fill" style={{width: '98%'}}></div></div>
             </div>
             <div className="stat-item">
-              <div className="stat-value">40%</div>
+              <div className="stat-value">
+                <AnimatedCounter end={40} duration={2000} suffix="%" />
+              </div>
               <div className="stat-label">Reduccion de Costos</div>
+              <div className="stat-bar"><div className="stat-bar-fill" style={{width: '70%'}}></div></div>
             </div>
             <div className="stat-item">
-              <div className="stat-value">3x</div>
+              <div className="stat-value">
+                <AnimatedCounter end={3} duration={1500} suffix="x" />
+              </div>
               <div className="stat-label">Mayor Productividad</div>
+              <div className="stat-bar"><div className="stat-bar-fill" style={{width: '90%'}}></div></div>
             </div>
           </div>
         </div>
@@ -680,7 +1111,7 @@ function App() {
           <div className="footer-grid">
             <div className="footer-brand">
               <div className="footer-logo">
-                <div className="footer-logo-icon">TI</div>
+                <img src="/favicon.svg" alt="TIC-IA" className="footer-logo-icon-img" />
                 <div className="footer-logo-text">TIC-<span>IA</span></div>
               </div>
               <p>
