@@ -18,13 +18,42 @@ import {
   X,
   Linkedin,
   Twitter,
-  Instagram
+  Instagram,
+  Play,
+  Loader2,
+  User,
+  DollarSign,
+  Calendar,
+  CreditCard,
+  CheckCircle,
+  XCircle,
+  Sparkles
 } from 'lucide-react';
 import './index.css';
+
+// API Base URL - tu servidor VoiceIA
+const API_BASE = 'https://pmc-got-happens-delivers.trycloudflare.com';
+
+// Demo profiles para probar diferentes escenarios
+const DEMO_PROFILES = [
+  { id: 'cooperative', label: 'Cooperativo', color: '#22c55e', description: 'Cliente dispuesto a pagar' },
+  { id: 'difficult', label: 'Dificil', color: '#ef4444', description: 'Cliente que pone objeciones' },
+  { id: 'busy', label: 'Ocupado', color: '#f59e0b', description: 'Cliente con poco tiempo' },
+];
 
 function App() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Demo Call State
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [debtorName, setDebtorName] = useState('');
+  const [debtAmount, setDebtAmount] = useState('');
+  const [diasMora, setDiasMora] = useState('');
+  const [producto, setProducto] = useState('');
+  const [profile, setProfile] = useState('cooperative');
+  const [calling, setCalling] = useState(false);
+  const [callResult, setCallResult] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,6 +62,50 @@ function App() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const formatPhone = (value) => {
+    return value.replace(/[^\d+]/g, '');
+  };
+
+  const formatMoney = (amount) => {
+    if (!amount) return '$0';
+    return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(amount);
+  };
+
+  const handleDemoCall = async () => {
+    if (!phoneNumber) return;
+
+    setCalling(true);
+    setCallResult(null);
+
+    try {
+      const res = await fetch(`${API_BASE}/calls/ultra`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phoneNumber,
+          debtorName: debtorName || 'Cliente Demo',
+          debtAmount: debtAmount || '150000',
+          daysOverdue: diasMora || '30',
+          product: producto || 'Demo TIC-IA',
+        }),
+      });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || 'Error al iniciar llamada');
+      }
+
+      const data = await res.json();
+      setCallResult({ success: true, data });
+    } catch (err) {
+      setCallResult({ success: false, error: err.message });
+    } finally {
+      setCalling(false);
+    }
+  };
+
+  const selectedProfile = DEMO_PROFILES.find(p => p.id === profile);
 
   return (
     <>
@@ -45,15 +118,15 @@ function App() {
           </a>
 
           <ul className="navbar-links">
+            <li><a href="#demo">Probar Demo</a></li>
             <li><a href="#servicios">Servicios</a></li>
             <li><a href="#tecnologia">Tecnologia</a></li>
-            <li><a href="#resultados">Resultados</a></li>
             <li><a href="#contacto">Contacto</a></li>
           </ul>
 
           <div className="navbar-cta">
-            <a href="#contacto" className="btn btn-primary">
-              Agenda una Demo
+            <a href="#demo" className="btn btn-primary">
+              Probar Gratis
             </a>
           </div>
 
@@ -92,8 +165,8 @@ function App() {
             </p>
 
             <div className="hero-buttons">
-              <a href="#contacto" className="btn btn-primary btn-lg">
-                Solicitar Demo Gratis
+              <a href="#demo" className="btn btn-primary btn-lg">
+                Probar Demo Ahora
                 <ArrowRight size={20} />
               </a>
               <a href="#servicios" className="btn btn-secondary btn-lg">
@@ -137,7 +210,248 @@ function App() {
 
               <div className="hero-visual-transcript">
                 <p><strong>Cliente:</strong> Necesito informacion sobre mi cuenta...</p>
-                <p><strong>Silvia:</strong> Por supuesto, permítame verificar su informacion para asistirle de inmediato.</p>
+                <p><strong>Silvia:</strong> Por supuesto, permitame verificar su informacion para asistirle de inmediato.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* DEMO SECTION - Probar VoiceIA */}
+      <section id="demo" className="demo-section">
+        <div className="container">
+          <div className="section-header">
+            <span className="section-badge">
+              <Sparkles size={14} />
+              Prueba en Vivo
+            </span>
+            <h2 className="section-title">Experimenta VoiceIA Ahora</h2>
+            <p className="section-description">
+              Ingresa tu numero de telefono y recibe una llamada de Silvia, nuestra agente de voz IA.
+              Comprueba tu mismo la calidad y naturalidad de la conversacion.
+            </p>
+          </div>
+
+          <div className="demo-container">
+            <div className="demo-card">
+              <div className="demo-card-header">
+                <div className="demo-card-icon">
+                  <Phone size={28} />
+                </div>
+                <div>
+                  <h3>Demo Gratuita de VoiceIA</h3>
+                  <p>Recibe una llamada de prueba en segundos</p>
+                </div>
+              </div>
+
+              <div className="demo-form">
+                {/* Phone Number */}
+                <div className="demo-form-group">
+                  <label>
+                    <Phone size={14} />
+                    Numero de telefono *
+                  </label>
+                  <input
+                    type="tel"
+                    placeholder="+56912345678"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(formatPhone(e.target.value))}
+                  />
+                  <span className="demo-form-hint">Formato internacional (ej: +56 para Chile)</span>
+                </div>
+
+                {/* Name and Amount */}
+                <div className="demo-form-row">
+                  <div className="demo-form-group">
+                    <label>
+                      <User size={14} />
+                      Tu nombre
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Juan Perez"
+                      value={debtorName}
+                      onChange={(e) => setDebtorName(e.target.value)}
+                    />
+                  </div>
+                  <div className="demo-form-group">
+                    <label>
+                      <DollarSign size={14} />
+                      Monto simulado (CLP)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="150000"
+                      value={debtAmount}
+                      onChange={(e) => setDebtAmount(e.target.value.replace(/[^\d]/g, ''))}
+                    />
+                  </div>
+                </div>
+
+                {/* Days and Product */}
+                <div className="demo-form-row">
+                  <div className="demo-form-group">
+                    <label>
+                      <Calendar size={14} />
+                      Dias de mora
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="30"
+                      value={diasMora}
+                      onChange={(e) => setDiasMora(e.target.value.replace(/[^\d]/g, ''))}
+                    />
+                  </div>
+                  <div className="demo-form-group">
+                    <label>
+                      <CreditCard size={14} />
+                      Producto
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Tarjeta de Credito"
+                      value={producto}
+                      onChange={(e) => setProducto(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                {/* Profile Selector */}
+                <div className="demo-form-group">
+                  <label>
+                    <User size={14} />
+                    Escenario de prueba
+                  </label>
+                  <div className="demo-profile-selector">
+                    {DEMO_PROFILES.map((p) => (
+                      <button
+                        key={p.id}
+                        className={`demo-profile-btn ${profile === p.id ? 'active' : ''}`}
+                        onClick={() => setProfile(p.id)}
+                        style={{
+                          '--profile-color': p.color,
+                        }}
+                      >
+                        {p.label}
+                      </button>
+                    ))}
+                  </div>
+                  {selectedProfile && (
+                    <span className="demo-form-hint">{selectedProfile.description}</span>
+                  )}
+                </div>
+
+                {/* Summary */}
+                {phoneNumber && (
+                  <div className="demo-summary">
+                    <div className="demo-summary-title">Resumen de la llamada</div>
+                    <div className="demo-summary-grid">
+                      <span><strong>Telefono:</strong> {phoneNumber}</span>
+                      <span><strong>Nombre:</strong> {debtorName || 'Cliente Demo'}</span>
+                      <span><strong>Monto:</strong> {formatMoney(debtAmount || 150000)}</span>
+                      <span><strong>Perfil:</strong> {selectedProfile?.label}</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Call Button */}
+                <button
+                  className="demo-call-btn"
+                  onClick={handleDemoCall}
+                  disabled={calling || !phoneNumber}
+                >
+                  {calling ? (
+                    <>
+                      <Loader2 size={20} className="spin" />
+                      Iniciando llamada...
+                    </>
+                  ) : (
+                    <>
+                      <Play size={20} />
+                      Recibir Llamada Demo
+                    </>
+                  )}
+                </button>
+
+                {/* Result */}
+                {callResult && (
+                  <div className={`demo-result ${callResult.success ? 'success' : 'error'}`}>
+                    {callResult.success ? (
+                      <>
+                        <CheckCircle size={24} />
+                        <div>
+                          <strong>Llamada Iniciada</strong>
+                          <p>Silvia te llamara en unos segundos al numero {phoneNumber}</p>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <XCircle size={24} />
+                        <div>
+                          <strong>Error</strong>
+                          <p>{callResult.error}</p>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Tech Stack */}
+              <div className="demo-tech">
+                <span>Tecnologia:</span>
+                <div className="demo-tech-items">
+                  <span>Twilio</span>
+                  <span>Groq AI</span>
+                  <span>ElevenLabs</span>
+                  <span>Deepgram</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Demo Benefits */}
+            <div className="demo-benefits">
+              <h3>Lo que experimentaras:</h3>
+              <ul>
+                <li>
+                  <CheckCircle2 size={20} />
+                  <div>
+                    <strong>Voz Natural</strong>
+                    <p>IA con voz humana, sin robotismos</p>
+                  </div>
+                </li>
+                <li>
+                  <CheckCircle2 size={20} />
+                  <div>
+                    <strong>Conversacion Fluida</strong>
+                    <p>Respuestas contextuales e inteligentes</p>
+                  </div>
+                </li>
+                <li>
+                  <CheckCircle2 size={20} />
+                  <div>
+                    <strong>Latencia Minima</strong>
+                    <p>Respuestas en menos de 1 segundo</p>
+                  </div>
+                </li>
+                <li>
+                  <CheckCircle2 size={20} />
+                  <div>
+                    <strong>Manejo de Objeciones</strong>
+                    <p>Silvia sabe como responder a cualquier situacion</p>
+                  </div>
+                </li>
+              </ul>
+
+              <div className="demo-cta-box">
+                <Sparkles size={24} />
+                <div>
+                  <strong>¿Te gusto la demo?</strong>
+                  <p>Contactanos para implementar VoiceIA en tu empresa</p>
+                </div>
+                <a href="#contacto" className="btn btn-primary">
+                  Contactar
+                </a>
               </div>
             </div>
           </div>
@@ -344,7 +658,7 @@ function App() {
               Transforma tu Empresa con IA
             </h2>
             <p className="cta-description">
-              Agenda una demostracion gratuita y descubre como nuestras soluciones
+              Agenda una demostracion personalizada y descubre como nuestras soluciones
               pueden automatizar tu operacion y multiplicar tus resultados.
             </p>
             <div className="cta-buttons">
@@ -393,8 +707,8 @@ function App() {
             <div className="footer-column">
               <h4>Empresa</h4>
               <ul>
+                <li><a href="#demo">Probar Demo</a></li>
                 <li><a href="#tecnologia">Tecnologia</a></li>
-                <li><a href="#resultados">Resultados</a></li>
                 <li><a href="#contacto">Contacto</a></li>
               </ul>
             </div>
