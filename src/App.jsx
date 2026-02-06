@@ -574,8 +574,15 @@ function App() {
                       type="text"
                       placeholder="150000"
                       value={debtAmount}
-                      onChange={(e) => setDebtAmount(e.target.value.replace(/[^\d]/g, ''))}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/[^\d]/g, '');
+                        const numValue = parseInt(value) || 0;
+                        if (numValue <= 5000000) {
+                          setDebtAmount(value);
+                        }
+                      }}
                     />
+                    <span className="demo-form-hint">Maximo $5.000.000</span>
                   </div>
                 </div>
 
