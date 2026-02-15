@@ -382,15 +382,16 @@ function App() {
           </a>
 
           <ul className="navbar-links">
+            <li><a href="#problemas">Problemas</a></li>
             <li><a href="#servicios">Servicios</a></li>
-            <li><a href="#tecnologia">Tecnologia</a></li>
+            <li><a href="#resultados">Resultados</a></li>
             <li><a href="#demo">Demo VoiceIA</a></li>
             <li><a href="#contacto">Contacto</a></li>
           </ul>
 
           <div className="navbar-cta">
             <a href="#contacto" className="btn btn-primary">
-              Consulta Gratis
+              Solicitar Evaluación
             </a>
           </div>
 
@@ -406,13 +407,14 @@ function App() {
         {/* Mobile Menu */}
         <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
           <ul className="mobile-menu-links">
+            <li><a href="#problemas" onClick={() => setMobileMenuOpen(false)}>Problemas</a></li>
             <li><a href="#servicios" onClick={() => setMobileMenuOpen(false)}>Servicios</a></li>
-            <li><a href="#tecnologia" onClick={() => setMobileMenuOpen(false)}>Tecnologia</a></li>
+            <li><a href="#resultados" onClick={() => setMobileMenuOpen(false)}>Resultados</a></li>
             <li><a href="#demo" onClick={() => setMobileMenuOpen(false)}>Demo VoiceIA</a></li>
             <li><a href="#contacto" onClick={() => setMobileMenuOpen(false)}>Contacto</a></li>
           </ul>
           <a href="#contacto" className="btn btn-primary mobile-menu-cta" onClick={() => setMobileMenuOpen(false)}>
-            Consulta Gratis
+            Solicitar Evaluación
           </a>
         </div>
       </nav>
@@ -435,36 +437,30 @@ function App() {
           <div className="hero-text">
             <div className="hero-badge">
               <span className="hero-badge-dot"></span>
-              Arquitectos de Soluciones IA
+              Operando en Chile y Europa
             </div>
 
             <h1 className="hero-title">
-              Diseñamos IA
+              Arquitectos de{' '}
+              <span className="hero-title-gradient-static">Automatización Inteligente</span>
               <br />
-              para tu{' '}
-              <span className="hero-title-gradient">
-                <TypingText
-                  texts={['operación', 'empresa', 'producción', 'industria', 'negocio']}
-                  speed={80}
-                  deleteSpeed={40}
-                  pauseTime={1500}
-                />
-              </span>
+              y Conocimiento Empresarial con IA
             </h1>
 
             <p className="hero-description">
-              Implementamos soluciones de inteligencia artificial a medida:
-              agentes de voz, sistemas RAG, integraciones ERP/SCADA
-              y automatización industrial con modelos on-premise.
+              Diseñamos sistemas RAG multimodales y automatizaciones avanzadas
+              para empresas industriales y medianas que necesitan{' '}
+              <strong>reducir costos operativos, estructurar conocimiento
+              crítico y escalar operaciones</strong> sin perder control de sus datos.
             </p>
 
             <div className="hero-buttons">
-              <MagneticButton href="#servicios" className="btn btn-primary btn-lg btn-glow">
-                Ver Soluciones
+              <MagneticButton href="#contacto" className="btn btn-primary btn-lg btn-glow">
+                Solicitar Evaluación Gratuita
                 <ArrowRight size={20} />
               </MagneticButton>
-              <MagneticButton href="#contacto" className="btn btn-secondary btn-lg">
-                Agendar Reunion
+              <MagneticButton href="#resultados" className="btn btn-secondary btn-lg">
+                Ver Resultados
               </MagneticButton>
             </div>
 
@@ -474,8 +470,8 @@ function App() {
                 <div className="hero-stat-label">Proyectos IA</div>
               </div>
               <div className="hero-stat">
-                <div className="hero-stat-value">24/7</div>
-                <div className="hero-stat-label">Operacion Continua</div>
+                <div className="hero-stat-value">40%</div>
+                <div className="hero-stat-label">Reducción Costos</div>
               </div>
               <div className="hero-stat">
                 <div className="hero-stat-value">2</div>
@@ -529,34 +525,111 @@ function App() {
         </div>
       </section>
 
-      {/* Services Section */}
+      {/* Problems Section - Qué Resolvemos */}
+      <section id="problemas" className="problems-section">
+        <div className="container">
+          <div className="section-header">
+            <span className="section-badge">El Problema</span>
+            <h2 className="section-title">¿Qué Resolvemos?</h2>
+            <p className="section-description">
+              Empresas industriales y medianas enfrentan desafíos críticos
+              que afectan su rentabilidad y escalabilidad.
+            </p>
+          </div>
+
+          <div className="problems-grid">
+            <GlowingCard className="problem-card">
+              <div className="problem-icon">
+                <Clock size={32} />
+              </div>
+              <h3 className="problem-title">Eficiencia Perdida en Procesos Manuales</h3>
+              <p className="problem-description">
+                Tu equipo dedica <strong>30-40% del tiempo</strong> a tareas
+                repetitivas: búsqueda de información, gestión documental,
+                seguimiento de procesos. Tiempo que podrían usar en decisiones estratégicas.
+              </p>
+              <div className="problem-impact">
+                <TrendingUp size={18} />
+                <span>Hasta 40% de tiempo recuperable</span>
+              </div>
+            </GlowingCard>
+
+            <GlowingCard className="problem-card">
+              <div className="problem-icon">
+                <Database size={32} />
+              </div>
+              <h3 className="problem-title">Conocimiento Técnico Disperso e Inaccesible</h3>
+              <p className="problem-description">
+                Manuales técnicos, planos, procedimientos operativos y conocimiento
+                experto <strong>atrapados en PDFs, emails y cabezas</strong>.
+                Imposible encontrar respuestas rápidas cuando se necesitan.
+              </p>
+              <div className="problem-impact">
+                <BrainCircuit size={18} />
+                <span>Conocimiento empresarial desaprovechado</span>
+              </div>
+            </GlowingCard>
+
+            <GlowingCard className="problem-card">
+              <div className="problem-icon">
+                <Users size={32} />
+              </div>
+              <h3 className="problem-title">Operaciones Que No Escalan Sin Contratar</h3>
+              <p className="problem-description">
+                Cada nuevo cliente significa más personas. Atención al cliente,
+                cobranzas, consultas técnicas: <strong>operaciones lineales
+                que consumen margen</strong> y limitan el crecimiento.
+              </p>
+              <div className="problem-impact">
+                <Zap size={18} />
+                <span>Escalar 24/7 sin multiplicar headcount</span>
+              </div>
+            </GlowingCard>
+
+            <GlowingCard className="problem-card">
+              <div className="problem-icon">
+                <Shield size={32} />
+              </div>
+              <h3 className="problem-title">Datos Sensibles Expuestos a Terceros</h3>
+              <p className="problem-description">
+                Soluciones cloud genéricas ponen tu información crítica en
+                servidores externos. <strong>Cumplimiento normativo, seguridad
+                industrial y confidencialidad</strong> en riesgo permanente.
+              </p>
+              <div className="problem-impact">
+                <Server size={18} />
+                <span>Control total con despliegue on-premise</span>
+              </div>
+            </GlowingCard>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section - 3 Pilares */}
       <section id="servicios" className="services">
         <div className="container">
           <div className="section-header">
-            {/* Animacion de chips IA flotantes */}
             <div className="services-ai-animation">
               <div className="ai-chip ai-chip-1">
-                <Cpu size={14} />
-                <span>Machine Learning</span>
-              </div>
-              <div className="ai-chip ai-chip-2">
                 <Database size={14} />
                 <span>RAG</span>
               </div>
-              <div className="ai-chip ai-chip-3">
+              <div className="ai-chip ai-chip-2">
                 <Zap size={14} />
-                <span>Automatizacion</span>
+                <span>Automatización</span>
               </div>
-              <div className="ai-chip ai-chip-4">
+              <div className="ai-chip ai-chip-3">
                 <Server size={14} />
                 <span>On-Premise</span>
               </div>
-              <div className="ai-chip ai-chip-5">
+              <div className="ai-chip ai-chip-4">
                 <Bot size={14} />
                 <span>NLP</span>
               </div>
-
-              {/* Lineas de conexion animadas */}
+              <div className="ai-chip ai-chip-5">
+                <Cpu size={14} />
+                <span>ML</span>
+              </div>
               <svg className="ai-chip-connections" viewBox="0 0 400 100">
                 <path className="ai-chip-line" d="M50,50 Q100,20 150,50 T250,50 T350,50" />
                 <path className="ai-chip-line ai-chip-line-2" d="M50,60 Q100,90 150,60 T250,60 T350,60" />
@@ -564,86 +637,90 @@ function App() {
             </div>
 
             <span className="section-badge">Nuestros Servicios</span>
-            <h2 className="section-title">Soluciones IA Empresariales</h2>
+            <h2 className="section-title">Servicios Que Realmente Importan</h2>
             <p className="section-description">
-              Arquitectura de inteligencia artificial adaptada a las necesidades
-              de tu empresa, con resultados medibles y escalables.
+              Tres pilares de arquitectura IA diseñados para resolver
+              problemas reales con resultados medibles.
             </p>
           </div>
 
-          <div className="services-grid">
-            {/* VoiceIA */}
-            <GlowingCard className="service-card">
-              <div className="service-icon">
-                <Phone size={32} />
-              </div>
-              <h3 className="service-title">VoiceIA - Call Center</h3>
-              <p className="service-description">
-                Agentes de voz con inteligencia artificial que manejan llamadas
-                entrantes y salientes con naturalidad humana. Ideal para cobranzas,
-                ventas y atencion al cliente.
-              </p>
-              <ul className="service-features">
-                <li><CheckCircle2 size={16} /> Voz natural con IA generativa</li>
-                <li><CheckCircle2 size={16} /> Integracion con tu CRM</li>
-                <li><CheckCircle2 size={16} /> Analisis de sentimiento en tiempo real</li>
-                <li><CheckCircle2 size={16} /> Transcripcion y reporteria automatica</li>
-              </ul>
-            </GlowingCard>
-
-            {/* Knowledge Base IA - RAG */}
-            <GlowingCard className="service-card">
+          <div className="services-grid-3col">
+            {/* Pilar 1: RAG Multimodal */}
+            <GlowingCard className="service-card service-card-pillar">
+              <div className="service-pillar-badge">Pilar 1</div>
               <div className="service-icon">
                 <Database size={32} />
               </div>
-              <h3 className="service-title">Knowledge Base IA - RAG</h3>
+              <h3 className="service-title">Arquitectura RAG Multimodal Empresarial</h3>
               <p className="service-description">
-                Sistemas de recuperacion de informacion multimodal que procesan
-                documentos, audio, video y planos tecnicos. Desplegados on-premise
-                para maxima seguridad de datos.
+                Estructuramos el conocimiento crítico de tu empresa en{' '}
+                <strong>texto, audio, video y planos técnicos</strong> para búsquedas
+                contextuales, respuestas precisas y toma de decisiones en segundos.
               </p>
               <ul className="service-features">
-                <li><CheckCircle2 size={16} /> Procesamiento multimodal (texto, audio, video)</li>
+                <li><CheckCircle2 size={16} /> Procesamiento multimodal (documentos, audio, video)</li>
+                <li><CheckCircle2 size={16} /> Embeddings vectoriales y semantic search</li>
                 <li><CheckCircle2 size={16} /> Despliegue on-premise con modelos locales</li>
-                <li><CheckCircle2 size={16} /> Integracion ERP/SCADA</li>
-                <li><CheckCircle2 size={16} /> Aprendizaje continuo automatizado</li>
+                <li><CheckCircle2 size={16} /> Integración ERP/SCADA/CRM existentes</li>
+                <li><CheckCircle2 size={16} /> Actualización continua del conocimiento</li>
               </ul>
+              <div className="service-tech-stack">
+                <span className="tech-badge">Llama 3</span>
+                <span className="tech-badge">Whisper</span>
+                <span className="tech-badge">ChromaDB</span>
+              </div>
             </GlowingCard>
 
-            {/* Email Marketing IA */}
-            <GlowingCard className="service-card">
+            {/* Pilar 2: Automatización Inteligente */}
+            <GlowingCard className="service-card service-card-pillar">
+              <div className="service-pillar-badge">Pilar 2</div>
               <div className="service-icon">
-                <Mail size={32} />
+                <Zap size={32} />
               </div>
-              <h3 className="service-title">Email Marketing IA</h3>
+              <h3 className="service-title">Automatización Inteligente de Procesos</h3>
               <p className="service-description">
-                Campanas de email con entregabilidad garantizada superior al 98%.
-                Contenido personalizado con IA que maximiza apertura y conversion.
+                Implementamos agentes de IA que <strong>reducen tareas manuales
+                críticas hasta en un 40%</strong>: atención al cliente, cobranzas,
+                gestión documental y workflows operativos con inteligencia conversacional.
               </p>
               <ul className="service-features">
-                <li><CheckCircle2 size={16} /> Entregabilidad optimizada al 98%+</li>
-                <li><CheckCircle2 size={16} /> Personalizacion dinamica con IA</li>
-                <li><CheckCircle2 size={16} /> A/B testing automatizado</li>
-                <li><CheckCircle2 size={16} /> Segmentacion inteligente</li>
+                <li><CheckCircle2 size={16} /> Agentes de voz con IA generativa (VoiceIA)</li>
+                <li><CheckCircle2 size={16} /> Chatbots empresariales contextuales</li>
+                <li><CheckCircle2 size={16} /> Automatización de email y comunicaciones</li>
+                <li><CheckCircle2 size={16} /> Workflows inteligentes con decisión autónoma</li>
+                <li><CheckCircle2 size={16} /> Analítica y reportería automatizada</li>
               </ul>
+              <div className="service-tech-stack">
+                <span className="tech-badge">GPT-4</span>
+                <span className="tech-badge">ElevenLabs</span>
+                <span className="tech-badge">LangChain</span>
+              </div>
             </GlowingCard>
 
-            {/* Desarrollo IA */}
-            <GlowingCard className="service-card">
+            {/* Pilar 3: Orquestación Enterprise */}
+            <GlowingCard className="service-card service-card-pillar">
+              <div className="service-pillar-badge">Pilar 3</div>
               <div className="service-icon">
-                <Cpu size={32} />
+                <Server size={32} />
               </div>
-              <h3 className="service-title">Desarrollo IA a Medida</h3>
+              <h3 className="service-title">Orquestación IA Enterprise & On-Premise</h3>
               <p className="service-description">
-                Soluciones personalizadas: chatbots, automatizaciones, integraciones
-                y sistemas inteligentes disenados especificamente para tu operacion.
+                Soluciones <strong>seguras y escalables</strong> que integran con tus
+                sistemas internos (ERP, SCADA, CRM) sin exponer datos sensibles.
+                Control total, cumplimiento normativo y arquitectura modular.
               </p>
               <ul className="service-features">
-                <li><CheckCircle2 size={16} /> Chatbots conversacionales</li>
-                <li><CheckCircle2 size={16} /> Automatizacion de procesos</li>
-                <li><CheckCircle2 size={16} /> APIs e integraciones</li>
-                <li><CheckCircle2 size={16} /> Machine Learning aplicado</li>
+                <li><CheckCircle2 size={16} /> Despliegue on-premise o hybrid cloud</li>
+                <li><CheckCircle2 size={16} /> Integraciones API con sistemas legacy</li>
+                <li><CheckCircle2 size={16} /> Modelos locales (Llama, Mistral, Whisper)</li>
+                <li><CheckCircle2 size={16} /> Arquitectura modular y escalable</li>
+                <li><CheckCircle2 size={16} /> Cumplimiento GDPR y normativas industriales</li>
               </ul>
+              <div className="service-tech-stack">
+                <span className="tech-badge">Docker</span>
+                <span className="tech-badge">Kubernetes</span>
+                <span className="tech-badge">PostgreSQL</span>
+              </div>
             </GlowingCard>
           </div>
         </div>
@@ -726,11 +803,11 @@ function App() {
 
         <div className="container">
           <div className="section-header">
-            <span className="section-badge">Tecnologia</span>
-            <h2 className="section-title">Nuestra Tecnologia</h2>
+            <span className="section-badge">Stack Tecnológico</span>
+            <h2 className="section-title">Nuestra Tecnología</h2>
             <p className="section-description">
-              Combinamos modelos de IA de ultima generacion con arquitectura
-              empresarial robusta y despliegue on-premise.
+              Combinamos modelos de IA de última generación con arquitectura
+              empresarial robusta, despliegue on-premise y seguridad industrial.
             </p>
           </div>
 
@@ -813,6 +890,97 @@ function App() {
               <p className="feature-description">
                 Equipo dedicado para implementacion y optimizacion continua.
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Methodology Section - Cómo Trabajamos */}
+      <section id="metodologia" className="methodology-section">
+        <div className="container">
+          <div className="section-header">
+            <span className="section-badge">Metodología</span>
+            <h2 className="section-title">Cómo Trabajamos</h2>
+            <p className="section-description">
+              Proceso estructurado de 4 fases con métricas medibles en cada etapa.
+            </p>
+          </div>
+
+          <div className="methodology-timeline">
+            <div className="methodology-phase">
+              <div className="phase-number">01</div>
+              <div className="phase-content">
+                <div className="phase-icon">
+                  <BarChart3 size={28} />
+                </div>
+                <h3 className="phase-title">Diagnóstico y Mapeo</h3>
+                <p className="phase-description">
+                  Analizamos tu operación actual: procesos manuales, fuentes de
+                  conocimiento, sistemas existentes y puntos críticos de ineficiencia.
+                </p>
+                <div className="phase-deliverable">
+                  <CheckCircle2 size={16} />
+                  <span>Informe de oportunidades con ROI proyectado</span>
+                </div>
+                <div className="phase-duration">2-3 semanas</div>
+              </div>
+            </div>
+
+            <div className="methodology-phase">
+              <div className="phase-number">02</div>
+              <div className="phase-content">
+                <div className="phase-icon">
+                  <Layers size={28} />
+                </div>
+                <h3 className="phase-title">Arquitectura y Diseño</h3>
+                <p className="phase-description">
+                  Diseñamos la solución técnica: stack tecnológico, integraciones,
+                  modelos IA, arquitectura de datos y plan de despliegue.
+                </p>
+                <div className="phase-deliverable">
+                  <CheckCircle2 size={16} />
+                  <span>Propuesta técnica detallada y roadmap</span>
+                </div>
+                <div className="phase-duration">1-2 semanas</div>
+              </div>
+            </div>
+
+            <div className="methodology-phase">
+              <div className="phase-number">03</div>
+              <div className="phase-content">
+                <div className="phase-icon">
+                  <Cpu size={28} />
+                </div>
+                <h3 className="phase-title">Implementación y Entrenamiento</h3>
+                <p className="phase-description">
+                  Desarrollamos, integramos y desplegamos la solución. Entrenamos
+                  modelos con tus datos, configuramos sistemas y capacitamos a tu equipo.
+                </p>
+                <div className="phase-deliverable">
+                  <CheckCircle2 size={16} />
+                  <span>Sistema en producción con métricas activas</span>
+                </div>
+                <div className="phase-duration">4-8 semanas</div>
+              </div>
+            </div>
+
+            <div className="methodology-phase">
+              <div className="phase-number">04</div>
+              <div className="phase-content">
+                <div className="phase-icon">
+                  <TrendingUp size={28} />
+                </div>
+                <h3 className="phase-title">Optimización Continua</h3>
+                <p className="phase-description">
+                  Monitoreamos rendimiento, ajustamos modelos, expandimos capacidades
+                  y garantizamos mejora continua basada en datos reales.
+                </p>
+                <div className="phase-deliverable">
+                  <CheckCircle2 size={16} />
+                  <span>Reportes mensuales de KPIs y optimizaciones</span>
+                </div>
+                <div className="phase-duration">Ongoing</div>
+              </div>
             </div>
           </div>
         </div>
@@ -1080,37 +1248,114 @@ function App() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section id="resultados" className="stats">
+      {/* Results Section */}
+      <section id="resultados" className="results-section">
         <div className="container">
-          <div className="stats-grid">
-            <div className="stat-item">
-              <div className="stat-value">
-                <AnimatedCounter end={10} duration={2000} suffix="+" />
+          <div className="section-header">
+            <span className="section-badge">Impacto Medible</span>
+            <h2 className="section-title">Resultados Reales</h2>
+            <p className="section-description">
+              Métricas de proyectos implementados en empresas industriales y medianas.
+            </p>
+          </div>
+
+          <div className="results-grid">
+            <div className="result-card">
+              <div className="result-icon">
+                <Clock size={32} />
               </div>
-              <div className="stat-label">Proyectos Implementados</div>
-              <div className="stat-bar"><div className="stat-bar-fill" style={{width: '75%'}}></div></div>
+              <div className="result-metric">
+                <div className="result-value">
+                  <AnimatedCounter end={40} duration={2000} suffix="%" />
+                </div>
+                <div className="result-label">Reducción de Tiempo</div>
+              </div>
+              <div className="result-description">
+                <strong>Búsqueda de manuales técnicos</strong>
+                <p>Proyecto industrial en Europa: de 15-20 minutos a menos de 2 minutos
+                por consulta técnica con sistema RAG multimodal.</p>
+              </div>
+              <div className="result-bar"><div className="result-bar-fill" style={{width: '40%'}}></div></div>
             </div>
-            <div className="stat-item">
-              <div className="stat-value">
-                <AnimatedCounter end={98} duration={2000} suffix="%" />
+
+            <div className="result-card">
+              <div className="result-icon">
+                <Users size={32} />
               </div>
-              <div className="stat-label">Entregabilidad Email</div>
-              <div className="stat-bar"><div className="stat-bar-fill" style={{width: '98%'}}></div></div>
+              <div className="result-metric">
+                <div className="result-value">
+                  <AnimatedCounter end={30} duration={2000} suffix="%" />
+                </div>
+                <div className="result-label">Reducción de Workload</div>
+              </div>
+              <div className="result-description">
+                <strong>Operaciones de cobranza</strong>
+                <p>Automatización de llamadas salientes: 300+ gestiones diarias
+                sin aumentar headcount, mejorando tasas de contacto efectivo.</p>
+              </div>
+              <div className="result-bar"><div className="result-bar-fill" style={{width: '30%'}}></div></div>
             </div>
-            <div className="stat-item">
-              <div className="stat-value">
-                <AnimatedCounter end={40} duration={2000} suffix="%" />
+
+            <div className="result-card">
+              <div className="result-icon">
+                <TrendingUp size={32} />
               </div>
-              <div className="stat-label">Reduccion de Costos</div>
-              <div className="stat-bar"><div className="stat-bar-fill" style={{width: '70%'}}></div></div>
+              <div className="result-metric">
+                <div className="result-value">
+                  <AnimatedCounter end={98} duration={2000} suffix="%" />
+                </div>
+                <div className="result-label">Entregabilidad Email</div>
+              </div>
+              <div className="result-description">
+                <strong>Campañas de marketing IA</strong>
+                <p>Personalización dinámica con IA y optimización de infraestructura:
+                +98% de emails llegan a inbox, no a spam.</p>
+              </div>
+              <div className="result-bar"><div className="result-bar-fill" style={{width: '98%'}}></div></div>
             </div>
-            <div className="stat-item">
-              <div className="stat-value">
-                <AnimatedCounter end={2} duration={1500} />
+
+            <div className="result-card">
+              <div className="result-icon">
+                <Server size={32} />
               </div>
-              <div className="stat-label">Continentes</div>
-              <div className="stat-bar"><div className="stat-bar-fill" style={{width: '60%'}}></div></div>
+              <div className="result-metric">
+                <div className="result-value">100%</div>
+                <div className="result-label">Control de Datos</div>
+              </div>
+              <div className="result-description">
+                <strong>Despliegue on-premise</strong>
+                <p>Arquitectura modular desplegada en infraestructura propia del cliente.
+                Cero exposición de datos sensibles a terceros.</p>
+              </div>
+              <div className="result-bar"><div className="result-bar-fill" style={{width: '100%'}}></div></div>
+            </div>
+          </div>
+
+          {/* Before vs After */}
+          <div className="results-comparison">
+            <div className="comparison-header">
+              <h3>Antes vs Después: Caso Real</h3>
+              <p>Empresa industrial europea — Sistema RAG para gestión de conocimiento técnico</p>
+            </div>
+            <div className="comparison-grid">
+              <div className="comparison-before">
+                <div className="comparison-label">Antes</div>
+                <ul>
+                  <li><XCircle size={16} /> 15-20 min por consulta técnica</li>
+                  <li><XCircle size={16} /> Conocimiento en PDFs dispersos</li>
+                  <li><XCircle size={16} /> Dependencia de expertos senior</li>
+                  <li><XCircle size={16} /> Errores por información desactualizada</li>
+                </ul>
+              </div>
+              <div className="comparison-after">
+                <div className="comparison-label">Después</div>
+                <ul>
+                  <li><CheckCircle size={16} /> Menos de 2 min por consulta</li>
+                  <li><CheckCircle size={16} /> Búsqueda semántica multimodal</li>
+                  <li><CheckCircle size={16} /> Acceso democratizado 24/7</li>
+                  <li><CheckCircle size={16} /> Actualización continua automática</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -1122,20 +1367,36 @@ function App() {
         <div className="container">
           <div className="cta-content">
             <h2 className="cta-title">
-              Disenemos tu Solucion IA
+              Solicita una Evaluación Gratuita de tu Caso
             </h2>
             <p className="cta-description">
-              Agenda una reunion con nuestro equipo de arquitectura IA.
-              Analizamos tu operacion y disenamos la solucion que tu empresa necesita.
+              Agenda una sesión de diagnóstico estratégico con nuestro equipo.
+              Analizamos tu operación, identificamos oportunidades de automatización
+              y diseñamos una propuesta técnica con ROI proyectado.
+              <strong> Respuesta en 48 horas.</strong>
             </p>
             <div className="cta-buttons">
               <a href="mailto:jpfigueroa@tic-ia.com" className="btn btn-primary btn-lg">
-                Contactar Ahora
+                Solicitar Propuesta
                 <ArrowRight size={20} />
               </a>
-              <a href="https://wa.me/56930920303" target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-lg">
-                WhatsApp
+              <a href="https://wa.me/56930920303?text=Hola%2C%20quiero%20solicitar%20una%20evaluaci%C3%B3n%20de%20IA%20para%20mi%20empresa" target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-lg">
+                WhatsApp Directo
               </a>
+            </div>
+            <div className="cta-trust-indicators">
+              <div className="trust-indicator">
+                <CheckCircle2 size={20} />
+                <span>Proyectos en Chile y Europa</span>
+              </div>
+              <div className="trust-indicator">
+                <CheckCircle2 size={20} />
+                <span>Arquitectura modular escalable</span>
+              </div>
+              <div className="trust-indicator">
+                <CheckCircle2 size={20} />
+                <span>On-premise o hybrid cloud</span>
+              </div>
             </div>
           </div>
         </div>
@@ -1151,8 +1412,8 @@ function App() {
                 <div className="footer-logo-text">TIC-<span>IA</span></div>
               </div>
               <p>
-                Arquitectos de soluciones de inteligencia artificial empresarial.
-                Disenamos, implementamos y escalamos IA para tu operacion.
+                Arquitectos de automatización inteligente y conocimiento empresarial con IA.
+                Sistemas RAG multimodales, automatizaciones avanzadas y orquestación on-premise.
               </p>
               <div className="footer-social">
                 <a href="#" aria-label="LinkedIn"><Linkedin size={20} /></a>
@@ -1164,19 +1425,19 @@ function App() {
             <div className="footer-column">
               <h4>Servicios</h4>
               <ul>
-                <li><a href="#servicios">VoiceIA Call Center</a></li>
-                <li><a href="#servicios">Knowledge Base IA</a></li>
-                <li><a href="#servicios">Email Marketing IA</a></li>
-                <li><a href="#servicios">Desarrollo IA a Medida</a></li>
+                <li><a href="#servicios">RAG Multimodal Empresarial</a></li>
+                <li><a href="#servicios">Automatización Inteligente</a></li>
+                <li><a href="#servicios">Orquestación Enterprise</a></li>
+                <li><a href="#demo">Demo VoiceIA</a></li>
               </ul>
             </div>
 
             <div className="footer-column">
               <h4>Empresa</h4>
               <ul>
-                <li><a href="#servicios">Soluciones</a></li>
-                <li><a href="#tecnologia">Tecnologia</a></li>
-                <li><a href="#demo">Demo VoiceIA</a></li>
+                <li><a href="#problemas">Qué Resolvemos</a></li>
+                <li><a href="#metodologia">Metodología</a></li>
+                <li><a href="#resultados">Resultados</a></li>
                 <li><a href="#contacto">Contacto</a></li>
               </ul>
             </div>
@@ -1193,7 +1454,7 @@ function App() {
 
           <div className="footer-bottom">
             <p>&copy; 2025 TIC-IA. Todos los derechos reservados.</p>
-            <p>Soluciones de Inteligencia Artificial Empresarial</p>
+            <p>Arquitectos de Automatización Inteligente con IA</p>
           </div>
         </div>
       </footer>
