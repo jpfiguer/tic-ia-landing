@@ -781,6 +781,14 @@ body {
   z-index: 2;
 }
 
+.hero-core-logo {
+  width: 54px;
+  height: 54px;
+  border-radius: 10px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
 @keyframes coreBreath {
   0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(99, 102, 241, 0.5), 0 0 80px rgba(139, 92, 246, 0.3), 0 0 120px rgba(99, 102, 241, 0.15); }
   50% { transform: scale(1.08); box-shadow: 0 0 60px rgba(99, 102, 241, 0.6), 0 0 100px rgba(139, 92, 246, 0.4), 0 0 160px rgba(99, 102, 241, 0.2); }
@@ -1053,7 +1061,7 @@ body {
   .hero-orbit-3 { width: 360px; height: 360px; }
 
   .hero-core-inner { width: 64px; height: 64px; }
-  .hero-core-inner svg { width: 26px; height: 26px; }
+  .hero-core-logo { width: 44px; height: 44px; }
 
   .hero-sat-icon { width: 44px; height: 44px; }
   .hero-sat-icon svg { width: 16px; height: 16px; }
@@ -1071,7 +1079,7 @@ body {
   .hero-orbit-3 { width: 290px; height: 290px; }
 
   .hero-core-inner { width: 54px; height: 54px; }
-  .hero-core-inner svg { width: 22px; height: 22px; }
+  .hero-core-logo { width: 36px; height: 36px; }
 
   .hero-sat-icon { width: 38px; height: 38px; }
   .hero-sat-icon svg { width: 14px; height: 14px; }
