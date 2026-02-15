@@ -444,7 +444,7 @@ function App() {
               para tu{' '}
               <span className="hero-title-gradient">
                 <TypingText
-                  texts={['operación', 'conocimiento', 'producción', 'comunicación', 'industria']}
+                  texts={['operación', 'empresa', 'producción', 'industria', 'negocio']}
                   speed={80}
                   deleteSpeed={40}
                   pauseTime={1500}
