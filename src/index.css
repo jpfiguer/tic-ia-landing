@@ -693,6 +693,129 @@ body {
   color: var(--accent-primary-light);
 }
 
+/* Hero Architecture Card */
+.hero-architecture-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-arch-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 24px;
+}
+
+.hero-arch-status {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--accent-success);
+  font-weight: 500;
+}
+
+.hero-arch-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-success);
+  border-radius: 50%;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.hero-arch-nodes {
+  position: relative;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-arch-node {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.hero-arch-node:hover {
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+}
+
+.hero-arch-node-center {
+  background: var(--accent-gradient);
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 14px;
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+}
+
+.hero-arch-node-center:hover {
+  color: white;
+  box-shadow: 0 0 40px rgba(99, 102, 241, 0.5);
+}
+
+.hero-arch-node-tl { top: 8px; left: 8px; }
+.hero-arch-node-tr { top: 8px; right: 8px; }
+.hero-arch-node-bl { bottom: 8px; left: 8px; }
+.hero-arch-node-br { bottom: 8px; right: 8px; }
+
+.hero-arch-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-arch-line {
+  stroke: var(--border-color);
+  stroke-width: 1;
+  stroke-dasharray: 6 4;
+  animation: dash-flow 3s linear infinite;
+}
+
+@keyframes dash-flow {
+  to { stroke-dashoffset: -30; }
+}
+
+/* Compact AI animation for demo section */
+.ai-animation-compact {
+  max-height: 180px;
+  margin-top: 24px;
+}
+
+.ai-animation-compact .ai-brain {
+  width: 100px;
+  height: 100px;
+}
+
 /* =====================
    BUTTONS
    ===================== */
@@ -921,7 +1044,7 @@ body {
 
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
 }
 
