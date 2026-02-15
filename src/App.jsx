@@ -439,11 +439,12 @@ function App() {
             </div>
 
             <h1 className="hero-title">
-              Disenamos IA para tu
+              Diseñamos IA
               <br />
+              para tu{' '}
               <span className="hero-title-gradient">
                 <TypingText
-                  texts={['operacion', 'conocimiento', 'produccion', 'comunicacion', 'industria']}
+                  texts={['operación', 'conocimiento', 'producción', 'comunicación', 'industria']}
                   speed={80}
                   deleteSpeed={40}
                   pauseTime={1500}
@@ -454,7 +455,7 @@ function App() {
             <p className="hero-description">
               Implementamos soluciones de inteligencia artificial a medida:
               agentes de voz, sistemas RAG, integraciones ERP/SCADA
-              y automatizacion industrial con modelos on-premise.
+              y automatización industrial con modelos on-premise.
             </p>
 
             <div className="hero-buttons">
