@@ -481,45 +481,139 @@ function App() {
           </div>
 
           <div className="hero-visual">
-            <div className="hero-visual-card hero-architecture-card">
-              <div className="hero-arch-header">
-                <BrainCircuit size={20} />
-                <span>Arquitectura IA</span>
-                <div className="hero-arch-status">
-                  <span className="hero-arch-dot"></span>
-                  Produccion
+            <div className="hero-orb-system">
+              {/* Animated mesh gradient background */}
+              <div className="hero-mesh-bg"></div>
+
+              {/* Orbital rings */}
+              <div className="hero-orbit hero-orbit-1"></div>
+              <div className="hero-orbit hero-orbit-2"></div>
+              <div className="hero-orbit hero-orbit-3"></div>
+
+              {/* Central core with glow */}
+              <div className="hero-core">
+                <div className="hero-core-inner">
+                  <BrainCircuit size={32} />
                 </div>
+                <div className="hero-core-ring"></div>
+                <div className="hero-core-pulse"></div>
+                <div className="hero-core-pulse hero-core-pulse-2"></div>
               </div>
 
-              <div className="hero-arch-nodes">
-                <div className="hero-arch-node hero-arch-node-center">
-                  <Cpu size={18} />
-                  <span>Orquestador IA</span>
+              {/* Satellite nodes */}
+              <div className="hero-satellite hero-sat-1">
+                <div className="hero-sat-icon">
+                  <Phone size={18} />
                 </div>
-                <div className="hero-arch-node hero-arch-node-tl">
-                  <Phone size={14} />
-                  <span>VoiceIA</span>
-                </div>
-                <div className="hero-arch-node hero-arch-node-tr">
-                  <Database size={14} />
-                  <span>RAG</span>
-                </div>
-                <div className="hero-arch-node hero-arch-node-bl">
-                  <Mail size={14} />
-                  <span>Email IA</span>
-                </div>
-                <div className="hero-arch-node hero-arch-node-br">
-                  <Server size={14} />
-                  <span>On-Premise</span>
-                </div>
+                <span className="hero-sat-label">VoiceIA</span>
+                <div className="hero-sat-glow"></div>
               </div>
 
-              <svg className="hero-arch-lines" viewBox="0 0 280 180">
-                <line className="hero-arch-line" x1="140" y1="90" x2="50" y2="35" />
-                <line className="hero-arch-line" x1="140" y1="90" x2="230" y2="35" />
-                <line className="hero-arch-line" x1="140" y1="90" x2="50" y2="145" />
-                <line className="hero-arch-line" x1="140" y1="90" x2="230" y2="145" />
+              <div className="hero-satellite hero-sat-2">
+                <div className="hero-sat-icon">
+                  <Database size={18} />
+                </div>
+                <span className="hero-sat-label">RAG</span>
+                <div className="hero-sat-glow"></div>
+              </div>
+
+              <div className="hero-satellite hero-sat-3">
+                <div className="hero-sat-icon">
+                  <Mail size={18} />
+                </div>
+                <span className="hero-sat-label">Email IA</span>
+                <div className="hero-sat-glow"></div>
+              </div>
+
+              <div className="hero-satellite hero-sat-4">
+                <div className="hero-sat-icon">
+                  <Server size={18} />
+                </div>
+                <span className="hero-sat-label">On-Premise</span>
+                <div className="hero-sat-glow"></div>
+              </div>
+
+              <div className="hero-satellite hero-sat-5">
+                <div className="hero-sat-icon">
+                  <Layers size={18} />
+                </div>
+                <span className="hero-sat-label">Pipeline</span>
+                <div className="hero-sat-glow"></div>
+              </div>
+
+              <div className="hero-satellite hero-sat-6">
+                <div className="hero-sat-icon">
+                  <Shield size={18} />
+                </div>
+                <span className="hero-sat-label">Seguridad</span>
+                <div className="hero-sat-glow"></div>
+              </div>
+
+              {/* SVG connections with animated pulses */}
+              <svg className="hero-connections" viewBox="0 0 500 500">
+                <defs>
+                  <linearGradient id="lineGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="rgba(99,102,241,0)" />
+                    <stop offset="50%" stopColor="rgba(99,102,241,0.6)" />
+                    <stop offset="100%" stopColor="rgba(139,92,246,0)" />
+                  </linearGradient>
+                  <linearGradient id="lineGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="rgba(6,182,212,0)" />
+                    <stop offset="50%" stopColor="rgba(6,182,212,0.5)" />
+                    <stop offset="100%" stopColor="rgba(99,102,241,0)" />
+                  </linearGradient>
+                  <filter id="glow">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+                {/* Core to satellites */}
+                <line className="hero-conn-line" x1="250" y1="250" x2="250" y2="60" filter="url(#glow)" />
+                <line className="hero-conn-line hero-conn-line-2" x1="250" y1="250" x2="430" y2="145" filter="url(#glow)" />
+                <line className="hero-conn-line hero-conn-line-3" x1="250" y1="250" x2="430" y2="355" filter="url(#glow)" />
+                <line className="hero-conn-line hero-conn-line-4" x1="250" y1="250" x2="250" y2="440" filter="url(#glow)" />
+                <line className="hero-conn-line hero-conn-line-5" x1="250" y1="250" x2="70" y2="355" filter="url(#glow)" />
+                <line className="hero-conn-line hero-conn-line-6" x1="250" y1="250" x2="70" y2="145" filter="url(#glow)" />
+
+                {/* Data flow particles */}
+                <circle className="hero-data-particle hero-dp-1" r="4" filter="url(#glow)">
+                  <animateMotion dur="3s" repeatCount="indefinite" path="M250,250 L250,60" />
+                </circle>
+                <circle className="hero-data-particle hero-dp-2" r="4" filter="url(#glow)">
+                  <animateMotion dur="3.5s" repeatCount="indefinite" path="M250,250 L430,145" />
+                </circle>
+                <circle className="hero-data-particle hero-dp-3" r="3" filter="url(#glow)">
+                  <animateMotion dur="4s" repeatCount="indefinite" path="M250,250 L430,355" />
+                </circle>
+                <circle className="hero-data-particle hero-dp-4" r="4" filter="url(#glow)">
+                  <animateMotion dur="3.2s" repeatCount="indefinite" path="M250,250 L250,440" />
+                </circle>
+                <circle className="hero-data-particle hero-dp-5" r="3" filter="url(#glow)">
+                  <animateMotion dur="3.8s" repeatCount="indefinite" path="M250,250 L70,355" />
+                </circle>
+                <circle className="hero-data-particle hero-dp-6" r="4" filter="url(#glow)">
+                  <animateMotion dur="3.6s" repeatCount="indefinite" path="M250,250 L70,145" />
+                </circle>
               </svg>
+
+              {/* Status badge */}
+              <div className="hero-system-status">
+                <span className="hero-status-dot"></span>
+                Arquitectura IA — Producción
+              </div>
+
+              {/* Floating particles */}
+              <div className="hero-float-particle hero-fp-1"></div>
+              <div className="hero-float-particle hero-fp-2"></div>
+              <div className="hero-float-particle hero-fp-3"></div>
+              <div className="hero-float-particle hero-fp-4"></div>
+              <div className="hero-float-particle hero-fp-5"></div>
+              <div className="hero-float-particle hero-fp-6"></div>
+              <div className="hero-float-particle hero-fp-7"></div>
+              <div className="hero-float-particle hero-fp-8"></div>
             </div>
           </div>
         </div>
@@ -664,11 +758,6 @@ function App() {
                 <li><CheckCircle2 size={16} /> Integración ERP/SCADA/CRM existentes</li>
                 <li><CheckCircle2 size={16} /> Actualización continua del conocimiento</li>
               </ul>
-              <div className="service-tech-stack">
-                <span className="tech-badge">Llama 3</span>
-                <span className="tech-badge">Whisper</span>
-                <span className="tech-badge">ChromaDB</span>
-              </div>
             </GlowingCard>
 
             {/* Pilar 2: Automatización Inteligente */}
@@ -690,11 +779,6 @@ function App() {
                 <li><CheckCircle2 size={16} /> Workflows inteligentes con decisión autónoma</li>
                 <li><CheckCircle2 size={16} /> Analítica y reportería automatizada</li>
               </ul>
-              <div className="service-tech-stack">
-                <span className="tech-badge">GPT-4</span>
-                <span className="tech-badge">ElevenLabs</span>
-                <span className="tech-badge">LangChain</span>
-              </div>
             </GlowingCard>
 
             {/* Pilar 3: Orquestación Enterprise */}
@@ -716,11 +800,6 @@ function App() {
                 <li><CheckCircle2 size={16} /> Arquitectura modular y escalable</li>
                 <li><CheckCircle2 size={16} /> Cumplimiento GDPR y normativas industriales</li>
               </ul>
-              <div className="service-tech-stack">
-                <span className="tech-badge">Docker</span>
-                <span className="tech-badge">Kubernetes</span>
-                <span className="tech-badge">PostgreSQL</span>
-              </div>
             </GlowingCard>
           </div>
         </div>
