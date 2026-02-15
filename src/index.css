@@ -782,11 +782,10 @@ body {
 }
 
 .hero-core-logo {
-  width: 54px;
-  height: 54px;
-  border-radius: 10px;
+  width: 58px;
+  height: 58px;
   object-fit: contain;
-  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
 }
 
 @keyframes coreBreath {

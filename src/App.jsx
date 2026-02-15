@@ -493,7 +493,7 @@ function App() {
               {/* Central core with glow */}
               <div className="hero-core">
                 <div className="hero-core-inner">
-                  <img src="/favicon.svg" alt="TIC-IA" className="hero-core-logo" />
+                  <img src="/logo-icon.svg" alt="TIC-IA" className="hero-core-logo" />
                 </div>
                 <div className="hero-core-ring"></div>
                 <div className="hero-core-pulse"></div>
