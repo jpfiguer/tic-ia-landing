@@ -337,7 +337,7 @@ function App() {
     setCallResult(null);
 
     try {
-      const res = await fetch(`${API_BASE}/calls/ultra`, {
+      const res = await fetch(`${API_BASE}/calls/demo`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -346,9 +346,6 @@ function App() {
           debtAmount: debtAmount || '150000',
           daysOverdue: diasMora || '30',
           product: producto || 'Demo TIC-IA',
-          // IMPORTANTE: Usar perfil 'demo' para llamadas de TIC-IA
-          // Esto evita que la agente mencione "RECOVER" o "CMR Falabella"
-          agentProfile: 'demo',
         }),
       });
 
